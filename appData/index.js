@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 /**
  * Express application is essentially a set of middleware and routes that define how your web server 
  * should handle incoming HTTP requests and respond to them.
@@ -7,21 +8,28 @@ const bodyParser = require('body-parser');
 const app = express();
 const server = require('http').Server(app);
 const port = 3000;
-
+const api = require('./api');
 /**
  * THIS IS BASICALLY USED TO IMPLEMENT "HTTP" HEADER FOR SECURING OUR SITE FOR "CLICKJACKING", "CROSS-SITE-SCRIPTING" 
  */
 const helmet = require('helmet');
 
+// Use the CORS middleware to enable cross-origin requests
+app.use(cors({
+    origin: 'http://localhost:4200',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Enable credentials (e.g., cookies) for cross-origin requests
+}));
 
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }))
+app.use('/api', api)
+
+
 
 //USE THE ROUTE IN THE MIDDLEWHARE
-app.use('/routes/admin-route', admin-route)
-app.use('/routes/doc-route')
-app.use('/routes/student-route')
+app.use('/admin',require('../routes/admin-route'))
 
 //HERE WE MENTIONED ALL THE HEADERS...
 app.use((req,res,next) => {
@@ -41,7 +49,6 @@ server.listen(port, (err) => {
     }
     console.log('Node Endpoints Working!!')
 });
-
 module.exports = server;
 
 

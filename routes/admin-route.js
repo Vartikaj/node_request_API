@@ -1,4 +1,6 @@
 const express = require('express');
+const router = express.Router();
+
 const {
     getAdminRoute,
 //   createPost,
@@ -6,10 +8,7 @@ const {
 //   getPost,
 //   deletePost,
 } = require('../controllers/admin-route');
-const router = express.Router();
-
-router.route('/').get(getAdminRoute);
-
-router.route('/:id').get(getAdminRoute);
+router.route('/getAdminRoute').get(getAdminRoute);
+// router.route('/:id').get(getAdminRoute);
 
 module.exports = router;
