@@ -3,12 +3,10 @@ const router = express.Router();
 
 const {
     getAdminRoute,
-//   createPost,
-//   updatePost,
-//   getPost,
-//   deletePost,
+    postRegistrationData,
 } = require('../controllers/admin-route');
+
 router.route('/getAdminRoute').get(getAdminRoute);
-// router.route('/:id').get(getAdminRoute);
+router.route('/postRegistrationData').get(postRegistrationData);
 
 module.exports = router;

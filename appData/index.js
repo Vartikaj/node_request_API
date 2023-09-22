@@ -14,6 +14,12 @@ const api = require('./api');
  */
 const helmet = require('helmet');
 
+/**
+ * 
+ * THIS IS USED TO CROSS- ORIGIN REQUEST BECAUSE NODE IS RUNNING ON 3000 PORT AND 
+ * ANGULAR IS RUNNING ON 4200 PORT TO OVERCOME CROSS ORIGIN REQUEST WE USE THIS
+ * 
+ * */
 // Use the CORS middleware to enable cross-origin requests
 app.use(cors({
     origin: 'http://localhost:4200',
