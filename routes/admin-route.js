@@ -7,6 +7,6 @@ const {
 } = require('../controllers/admin-route');
 
 router.route('/getAdminRoute').get(getAdminRoute);
-router.route('/postRegistrationData').get(postRegistrationData);
+router.route('/postRegistrationData').post(postRegistrationData);
 
 module.exports = router;

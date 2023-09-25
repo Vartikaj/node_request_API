@@ -20,25 +20,16 @@ const registrationForm = require('../models/registrationForm');
       }
   });
 
-  const user = new registrationForm({
-    firstName: "Vrinda",
-    lastName: "Johari",
-    email: "Vrindajohari57@gmail.com",
-    phone: 1234567890,
-    address: "104A/250 Ram",
-    city: "Kanpur",
-    state: "UP",
-    postalCode: 208012,
-});
+  
 
   exports.postRegistrationData = asyncHandler(async (req, res, next) => {
     try {
+      const user = new registrationForm(req.body);
         const insertUserData = await user.save();
-
-        console.log(insertUserData);
-
+        console.log("Inserted data " + insertUserData);
         res.status(200).json({
           success: true,
+          //credentials: true, 
           data: insertUserData
         });
       } catch (error) {

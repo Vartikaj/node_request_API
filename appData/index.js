@@ -21,11 +21,24 @@ const helmet = require('helmet');
  * 
  * */
 // Use the CORS middleware to enable cross-origin requests
-app.use(cors({
-    origin: 'http://localhost:4200',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // Enable credentials (e.g., cookies) for cross-origin requests
-}));
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
 
 app.use(helmet());
 app.use(bodyParser.json());
@@ -38,16 +51,17 @@ app.use('/api', api)
 app.use('/admin',require('../routes/admin-route'))
 
 //HERE WE MENTIONED ALL THE HEADERS...
-app.use((req,res,next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept');
-	next();
-})
+// app.use((req,res,next) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+// 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+// 	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept');
+// 	next();
+// })
 
 app.options('*', function(req,res){
-    res.send(200);
+    res.sendStatus(200);
 });
+
 
 server.listen(port, (err) => {
     if(err) {
