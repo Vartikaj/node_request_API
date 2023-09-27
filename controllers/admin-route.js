@@ -9,7 +9,6 @@ const registrationForm = require('../models/registrationForm');
     try {
         //console.log(await Post.find());
         const accountUsersData = await registrationForm.find({});
-        console.log(accountUsersData);
         res.status(200).json({
           success: true,
           data: accountUsersData,
@@ -20,13 +19,11 @@ const registrationForm = require('../models/registrationForm');
       }
   });
 
-  
 
   exports.postRegistrationData = asyncHandler(async (req, res, next) => {
     try {
       const user = new registrationForm(req.body);
         const insertUserData = await user.save();
-        console.log("Inserted data " + insertUserData);
         res.status(200).json({
           success: true,
           //credentials: true, 
@@ -37,3 +34,55 @@ const registrationForm = require('../models/registrationForm');
         next(error); // Pass the error to the next middleware
       }
   });
+
+
+  exports.getDataById = asyncHandler(async (req, res, next) => {
+    try {
+        const id = req.query.id;
+        const accountUsersData = await registrationForm.find({ _id : id }).exec();
+        res.status(200).json({
+          success: true,
+          data: accountUsersData,
+        });
+      } catch (error) {
+        console.error('Error in getAdminRoute:', error);
+        next(error); // Pass the error to the next middleware
+      }
+  });
+
+
+  exports.updateDataById = asyncHandler(async (req, res, next) => {
+    try {
+        const id = req.query.id;
+        const insertUserData = await registrationForm.updateOne({_id: id}, req.body); 
+        if(insertUserData.modifiedCount === 1){
+          console.log("(1) data modified successfully");
+          res.status(200).json({
+            success: true,
+            data: insertUserData,
+          });
+
+        }else {
+          console.log("Their is some error");
+        } 
+      } catch (error) {
+        console.error('Error in getAdminRoute:', error);
+      }
+      next(error);
+  });
+
+
+  exports.deleteDataById = asyncHandler(async(req, res, next) => {
+    try{
+      const id = req.query.id;
+      const deleteData = await registrationForm.deleteOne({_id : id});
+      if(deleteData.deletedCount === 1){
+        console.log("(1) data has been deleted !!");
+      }
+    } catch (error){
+      console.error('Error in deleteDataById'. error);
+    }
+    next();
+  });
+
+
